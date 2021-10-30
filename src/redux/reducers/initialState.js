@@ -1,5 +1,5 @@
 export default {
-    currentCategory:{categoryName:"Condiments"},
+    currentCategory:{categoryName:""},
     categories:[],
     products:[],
     cart:[],

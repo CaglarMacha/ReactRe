@@ -2,27 +2,37 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as categoryActions from "../../redux/actions/categoryActions";
-import {Button, ListGroup,ListGroupItem} from "reactstrap"
-
+import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import { Badge } from 'reactstrap';
+import * as productsActions from "../../redux/actions/productActions"
 class CategoryList extends Component {
-  componentDidMount()
-  {
-    this.props.actions.getCategories()
+  componentDidMount() {
+    this.props.actions.getCategories();
   }
+
+  selectCategory = (category)=> {
+    this.props.actions.changeCategory(category)
+    this.props.actions.getProducts(category.id)
+  }
+
   render() {
-    debugger
+    debugger;
     return (
       <div>
-        <h3>CategoryList {this.props.categories.length} </h3>
-        <ListGroup >
+        <Badge color="success" >Categories</Badge>
+
+        <h3> {this.props.categories.length} </h3>
+        <ListGroup>
           {this.props.categories.map((category) => (
-            <ListGroupItem active={category.id===this.props.currentCategory.id} onClick={()=>this.props.actions.changeCategory(category)} key={category.id}>
+            <ListGroupItem
+              active={category.id === this.props.currentCategory.id}
+              onClick={() => this.selectCategory(category)}
+              key={category.id}
+            >
               {category.categoryName}
-            </ListGroupItem> 
-            
-            
+            </ListGroupItem>
           ))}
-          <Button >Tıkla </Button>
+          <Button>Tıkla </Button>
         </ListGroup>
         <h5>Seçili Kategori : {this.props.currentCategory.categoryName}</h5>
         {/* <h2>{this.props.actions.getCategories().length}</h2> */}
@@ -44,7 +54,11 @@ function mapDispatchToProps(dispatch) {
         categoryActions.getCategories,
         dispatch
       ),
-      changeCategory:bindActionCreators(categoryActions.changeCategory,dispatch)
+      changeCategory: bindActionCreators(
+        categoryActions.changeCategory,
+        dispatch
+      ),
+      getProducts: bindActionCreators(productsActions.getProducts, dispatch),
     },
   };
 }
