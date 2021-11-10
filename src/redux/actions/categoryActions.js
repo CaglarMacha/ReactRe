@@ -12,6 +12,7 @@ export function getCategoriesSuccess(categories) {
     payload: categories,
   };
 }
+
 export function getCategories() {
   return function(dispatch) {
     
